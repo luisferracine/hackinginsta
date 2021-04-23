@@ -1,0 +1,27 @@
+<?
+//limite de pessoas online
+$limite = "60";
+//comando para verificar se o ot esta on @ = Esconde erros em forma de WARNING
+@$fp = fsockopen ("SEU_IP_AQUI" /* Your ip */,7171, $errno, $errstr, 1);
+//se o ot server estiver on..
+if($fp) {
+//escreve no arquivo INFO
+fwrite($fp, chr(6).chr(0).chr(255).chr(255)."info");
+//le arquivo
+$data = fread($fp, 2048);
+//separa as strings
+preg_match("#online=\"(.*?)\" max=\"(.*?)\"#", $data, $match);
+//exibe na tela quantas pessoas estão online e que o ot está online
+echo "<font face = verdana size = 2 color = #009900><b>On-Line</b></font><br><br>";
+echo ("<font color=\"#33CCFF\" size = 2><b>Quem está online: <font face = verdana size = 2 color = #009900> $match[1]</font></font> / <font color=\"#FF0000\" size = 2>$limite</font></b>");
+//fecha ação
+fclose($fp);
+//senão..
+}
+else
+{
+//exibe que o ot está off line
+echo "<font face = verdana size = 2 color = #FF0000><b>Off-Line</b></font><br><br>";
+echo ("<b><font color=\"#33CCFF\" size = 2>Quem esta online: <font face = verdana size = 2 color = FF0000>0</font></font> / <font color=\"#FF0000\" size = 2>$limite</font></b>"); }
+?>
+
